@@ -3,6 +3,27 @@
 Đề tài: **Xây dựng hệ thống thị giác máy tính hỗ trợ nhận diện, phân loại và thống kê sản phẩm theo màu sắc**.
 
 Project dùng Flask, OpenCV, YOLOv8, NumPy, SQLite, Bootstrap và Chart.js để nhận diện vật thể qua webcam hoặc file upload, phân tích màu chủ đạo, đếm số lượng từng màu, cảnh báo sai màu và export CSV.
+<h2 align ="center">
+    <a href="https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin">
+    🎓 Faculty of Information Technology (DaiNam University)
+    </a>
+</h2>
+
+<h2 align ="center">  
+   LƯU TRỮ LỊCH SỬ PHÂN LOẠI SẢN PHẨM BẰNG BLOCKCHAIN
+</h2>
+
+<div align ="center">
+    <p align ="center">
+        <img src="https://github.com/tiennq004/LTM_he_thong_canh_bao_thoi_gian_thuc/blob/main/docs/aiotlab_logo.png" width="170"/>
+        <img src="https://github.com/tiennq004/LTM_he_thong_canh_bao_thoi_gian_thuc/blob/main/docs/fitdnu_logo.png" width="180"/>
+        <img src="https://github.com/tiennq004/LTM_he_thong_canh_bao_thoi_gian_thuc/blob/main/docs/dnu_logo.png" width="200"/>
+    </p>
+
+[![AIoTLab](https://img.shields.io/badge/AIoTLab-green?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
+[![Faculty of Information Technology](https://img.shields.io/badge/Faculty%20of%20Information%20Technology-blue?style=for-the-badge)](https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin)
+[![DaiNam University](https://img.shields.io/badge/DaiNam%20University-orange?style=for-the-badge)](https://dainam.edu.vn)
+</div> 
 
 ## Tính năng
 
