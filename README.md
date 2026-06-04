@@ -27,11 +27,7 @@ LƯU TRỮ LỊCH SỬ PHÂN LOẠI SẢN PHẨM BẰNG BLOCKCHAIN
 ## 📌 Poster dự án
 
 <div align="center">
-
 <img src="./Poster_Blockchain.JPG" width="850"/>
-
-**Hình 1. Poster giới thiệu hệ thống Lưu trữ lịch sử phân loại sản phẩm bằng Blockchain**
-
 </div>
 
 ---
