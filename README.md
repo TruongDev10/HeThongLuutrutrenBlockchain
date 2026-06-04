@@ -360,7 +360,7 @@ PICK 150 110 red valid
 # 📷 Hình ảnh minh họa
 
 <p align="center">
-<img src="./assets/images/dashboard.png" width="700"/>
+<img src="./giao diện.jpg" width="700"/>
 </p>
 
 <p align="center">
@@ -368,7 +368,7 @@ PICK 150 110 red valid
 </p>
 
 <p align="center">
-<img src="./assets/images/blockchain.png" width="700"/>
+<img src="./kết nối Block.jpg" width="700"/>
 </p>
 
 <p align="center">
