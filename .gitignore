@@ -1,0 +1,12 @@
+.venv/
+.ultralytics/
+.solcx/
+__pycache__/
+*.py[cod]
+server.err.log
+server.out.log
+uploads/
+outputs/
+exports/
+database/database.db
+blockchain/blockchain_settings.json

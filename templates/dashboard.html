@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Color Vision Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar glass-panel">
+      <div class="brand">
+        <div class="brand-mark">AI</div>
+        <div>
+          <h1>Color Vision</h1>
+          <span>YOLOv8 + OpenCV QC</span>
+        </div>
+      </div>
+      <nav>
+        <a class="active" href="/dashboard">Dashboard</a>
+        <a href="/history">History</a>
+        <a href="/export-csv">Export CSV</a>
+      </nav>
+      <div class="model-card">
+        <span class="status-dot"></span>
+        <div>
+          <small>Model status</small>
+          <strong id="modelStatus">Starting</strong>
+        </div>
+      </div>
+      <div class="model-card blockchain-card">
+        <span class="status-dot blockchain-dot"></span>
+        <div>
+          <small>Blockchain</small>
+          <strong id="blockchainStatus">Not configured</strong>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Realtime product color inspection</p>
+          <h2>Hệ thống nhận diện, phân loại và thống kê sản phẩm theo màu sắc</h2>
+        </div>
+        <div class="header-actions">
+          <a class="btn btn-neon" href="/export-csv">Export CSV</a>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <article class="metric-card glass-panel">
+          <span>Tổng vật thể</span>
+          <strong id="totalObjects">0</strong>
+        </article>
+        <article class="metric-card glass-panel">
+          <span>FPS</span>
+          <strong id="fpsCounter">0.0</strong>
+        </article>
+        <article class="metric-card glass-panel alert-card">
+          <span>Wrong color</span>
+          <strong id="defectCount">0</strong>
+        </article>
+        <article class="metric-card glass-panel">
+          <span>Màu chuẩn</span>
+          <strong id="targetColorText">None</strong>
+        </article>
+        <article class="metric-card glass-panel robot-metric">
+          <span>Robot command</span>
+          <strong id="robotCommandText">WAIT</strong>
+        </article>
+      </section>
+
+      <section class="glass-panel blockchain-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Local Ethereum ledger</p>
+            <h3>Blockchain truy xuất nguồn gốc</h3>
+          </div>
+          <span id="blockchainReadyBadge" class="status-badge ng">OFFLINE</span>
+        </div>
+        <div class="blockchain-grid">
+          <div>
+            <label class="form-label">Ganache RPC</label>
+            <input id="providerUri" class="form-control dark-input" value="http://127.0.0.1:7545">
+          </div>
+          <div>
+            <label class="form-label">Contract address</label>
+            <input id="contractAddress" class="form-control dark-input" placeholder="0x...">
+          </div>
+          <div>
+            <label class="form-label">Account address</label>
+            <input id="accountAddress" class="form-control dark-input" placeholder="0x...">
+          </div>
+          <div>
+            <label class="form-label">Chain ID</label>
+            <input id="chainId" class="form-control dark-input" value="1337">
+          </div>
+          <div>
+            <label class="form-label">Private key</label>
+            <input id="privateKey" class="form-control dark-input" type="password" placeholder="Ganache private key">
+          </div>
+          <button id="saveBlockchainConfig" class="btn btn-neon">Kết nối blockchain</button>
+          <button id="testBlockchainLog" class="btn btn-ghost">Test ghi log</button>
+          <div class="ledger-readout">
+            <span>Records on-chain</span>
+            <strong id="chainRecordCount">0</strong>
+          </div>
+        </div>
+        <div class="tx-line">Last tx: <span id="lastTxHash">None</span></div>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="camera-panel glass-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Live camera</p>
+              <h3>Bounding box + màu chủ đạo</h3>
+            </div>
+            <span class="live-pill"><i></i>LIVE</span>
+          </div>
+          <div class="video-frame">
+            <div class="scanline"></div>
+            <img id="cameraFeed" src="/video_feed" alt="Realtime camera stream">
+          </div>
+        </div>
+
+        <div class="control-panel glass-panel">
+          <div class="panel-head">
+            <h3>Cấu hình kiểm tra</h3>
+          </div>
+          <label class="form-label">Màu chuẩn cần kiểm tra</label>
+          <select id="targetColor" class="form-select dark-input">
+            <option value="none">Không kiểm tra lỗi</option>
+            {% for color in colors %}
+              <option value="{{ color }}">{{ color_labels[color] }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="form-label mt-4">Confidence threshold <span id="confidenceValue">{{ default_confidence }}</span></label>
+          <input id="confidenceSlider" type="range" min="0.05" max="0.95" value="{{ default_confidence }}" step="0.05" class="form-range">
+
+          <div class="upload-box">
+            <label class="form-label">Webcam</label>
+            <div class="camera-source-row">
+              <select id="cameraSource" class="form-select dark-input">
+                <option value="0">Camera 0</option>
+                <option value="1">Camera 1</option>
+                <option value="2">Camera 2</option>
+                <option value="3">Camera 3</option>
+              </select>
+              <button id="applyCameraSource" class="btn btn-ghost" type="button">Dung webcam</button>
+            </div>
+            <div id="cameraStatus" class="upload-status"></div>
+          </div>
+
+          <div class="upload-box">
+            <label class="form-label">Upload ảnh</label>
+            <form id="imageForm">
+              <input class="form-control dark-input" type="file" name="image" accept="image/*">
+              <button class="btn btn-neon w-100 mt-3" type="submit">Phân tích ảnh</button>
+            </form>
+          </div>
+
+          <div class="upload-box">
+            <label class="form-label">Upload video</label>
+            <form id="videoForm">
+              <input class="form-control dark-input" type="file" name="video" accept="video/*">
+              <button class="btn btn-ghost w-100 mt-3" type="submit">Phân tích video</button>
+            </form>
+          </div>
+          <div id="uploadStatus" class="upload-status"></div>
+
+          <div class="robot-sim-box">
+            <div class="panel-head">
+              <h3>Robot arm</h3>
+              <span id="robotModeBadge" class="status-badge ignored">SIM</span>
+            </div>
+            <div class="robot-readout">
+              <div>
+                <span>Object center</span>
+                <strong id="robotCenter">-</strong>
+              </div>
+              <div>
+                <span>Pick position</span>
+                <strong id="robotPickPosition">-</strong>
+              </div>
+              <div>
+                <span>Drop bin</span>
+                <strong id="robotDropBin">-</strong>
+              </div>
+              <div>
+                <span>Last command</span>
+                <strong id="robotLastCommand">WAIT</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="analytics-grid">
+        <div class="glass-panel chart-panel">
+          <div class="panel-head">
+            <h3>Phân bố màu</h3>
+          </div>
+          <canvas id="colorChart" height="140"></canvas>
+        </div>
+        <div class="glass-panel">
+          <div class="panel-head">
+            <h3>Số lượng từng màu</h3>
+          </div>
+          <div id="colorCounters" class="color-counters"></div>
+        </div>
+      </section>
+
+      <section class="glass-panel log-panel">
+        <div class="panel-head">
+          <h3>Log sự kiện nhận diện</h3>
+          <a href="/history">Xem lịch sử</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-dark align-middle">
+            <thead>
+              <tr>
+                <th>Thời gian</th>
+                <th>Vật thể</th>
+                <th>Màu</th>
+                <th>Detected HEX/RGB</th>
+                <th>Standard HEX/RGB</th>
+                <th>Distance</th>
+                <th>Match</th>
+                <th>RGB</th>
+                <th>HSV</th>
+                <th>Tâm</th>
+                <th>Lệnh robot</th>
+                <th>Conf</th>
+                <th>Trạng thái</th>
+                <th>Hash</th>
+                <th>Blockchain</th>
+              </tr>
+            </thead>
+            <tbody id="logTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toastAlert" class="toast-alert">Phát hiện sản phẩm sai màu</div>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
