@@ -1,8 +1,3 @@
-# AI Computer Vision Color Product Inspection
-
-Đề tài: **Xây dựng hệ thống thị giác máy tính hỗ trợ nhận diện, phân loại và thống kê sản phẩm theo màu sắc**.
-
-Project dùng Flask, OpenCV, YOLOv8, NumPy, SQLite, Bootstrap và Chart.js để nhận diện vật thể qua webcam hoặc file upload, phân tích màu chủ đạo, đếm số lượng từng màu, cảnh báo sai màu và export CSV.
 <h2 align ="center">
     <a href="https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin">
     🎓 Faculty of Information Technology (DaiNam University)
