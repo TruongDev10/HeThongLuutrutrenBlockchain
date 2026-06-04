@@ -1,309 +1,407 @@
-<h2 align ="center">
+<h2 align="center">
     <a href="https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin">
     🎓 Faculty of Information Technology (DaiNam University)
     </a>
 </h2>
 
-<h2 align ="center">  
-   LƯU TRỮ LỊCH SỬ PHÂN LOẠI SẢN PHẨM BẰNG BLOCKCHAIN
+<h2 align="center">
+LƯU TRỮ LỊCH SỬ PHÂN LOẠI SẢN PHẨM BẰNG BLOCKCHAIN
 </h2>
 
-<div align ="center">
-    <p align ="center">
-        <img src="./aiotlab_logo.png" width="170"/>
-        <img src="./fitdnu_logo.png" width="180"/>
-        <img src="./dnu_logo.png" width="200"/>
-    </p>
+<div align="center">
+
+<p align="center">
+<img src="./aiotlab_logo.png" width="170"/>
+<img src="./fitdnu_logo.png" width="180"/>
+<img src="./dnu_logo.png" width="200"/>
+</p>
 
 [![AIoTLab](https://img.shields.io/badge/AIoTLab-green?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
 [![Faculty of Information Technology](https://img.shields.io/badge/Faculty%20of%20Information%20Technology-blue?style=for-the-badge)](https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin)
 [![DaiNam University](https://img.shields.io/badge/DaiNam%20University-orange?style=for-the-badge)](https://dainam.edu.vn)
-</div> 
 
-## Tính năng
+</div>
 
-- Realtime webcam stream với bounding box và label màu.
-- Detect vật thể bằng YOLOv8 pretrained hoặc `models/best.pt` custom.
-- Fallback contour detection nếu chưa cài được Ultralytics/model.
-- Phân tích màu bằng HSV threshold và OpenCV KMeans.
-- Chỉ nhận diện 5 màu mục tiêu: đỏ, xanh lá, xanh dương, vàng, cam.
-- Màu trắng, xám, đen, nâu, tím hoặc màu nền được trả về `not_target_color` / `ignored`.
-- Chỉ phân tích vùng trung tâm bbox YOLO, không lấy dominant color toàn frame.
-- Chọn màu chuẩn để phát hiện sai màu `NG`.
-- Upload ảnh/video và lưu output đã vẽ bounding box.
-- Dashboard dark mode, glassmorphism, Chart.js realtime.
-- SQLite log, thống kê màu, export CSV.
-- Voice alert trên trình duyệt khi phát hiện sai màu.
-- Ghi nhật ký phân loại lên Local Blockchain Ganache/Ethereum bằng Web3.py.
-- Smart Contract Solidity lưu `productId`, màu sắc, kết quả OK/NG, RGB/HSV và thời gian.
+---
 
-## Cấu trúc
+# 📖 Giới thiệu đề tài
+
+**Lưu trữ lịch sử phân loại sản phẩm bằng Blockchain** là hệ thống kết hợp giữa **Thị giác máy tính (Computer Vision)**, **Trí tuệ nhân tạo (AI)** và **Blockchain Ethereum** nhằm xây dựng một nền tảng giám sát và truy xuất nguồn gốc dữ liệu phân loại sản phẩm một cách minh bạch và bất biến.
+
+Hệ thống sử dụng camera để thu nhận hình ảnh sản phẩm, áp dụng mô hình YOLOv8 kết hợp OpenCV để phát hiện vật thể và nhận diện màu sắc. Sau khi phân tích, dữ liệu sẽ được lưu đồng thời vào SQLite và Smart Contract trên Blockchain thông qua Web3.py.
+
+🎯 **Mục tiêu của hệ thống**
+
+* Tự động nhận diện và phân loại sản phẩm theo màu sắc.
+* Hỗ trợ cánh tay robot Arduino thực hiện gắp và phân loại.
+* Lưu trữ nhật ký phân loại lên Blockchain Ethereum cục bộ.
+* Đảm bảo dữ liệu không thể chỉnh sửa hoặc giả mạo.
+* Hỗ trợ truy xuất lịch sử phân loại và thống kê trực quan.
+
+---
+
+# ⚙️ Tính năng nổi bật
+
+* 📷 Realtime Webcam Stream.
+* 🎯 Phát hiện vật thể bằng YOLOv8 hoặc Custom Model.
+* 🎨 Nhận diện 5 màu mục tiêu:
+
+  * Đỏ
+  * Xanh lá
+  * Xanh dương
+  * Vàng
+  * Cam
+* 🧠 Phân tích màu bằng HSV Threshold và OpenCV.
+* 🚫 Loại bỏ màu nền và các màu không mong muốn.
+* 📊 Dashboard realtime với Chart.js.
+* 🗂️ Lưu lịch sử SQLite.
+* 📄 Export dữ liệu CSV.
+* 🔊 Voice Alert khi phát hiện sai màu.
+* ⛓️ Ghi dữ liệu lên Local Blockchain Ganache/Ethereum.
+* 🤖 Hỗ trợ điều khiển cánh tay robot Arduino Nano.
+
+---
+
+# 🖥️ Kiến trúc hệ thống
+
+## 🎨 Giao diện người dùng (UI)
+
+* Dashboard Dark Mode.
+* Glassmorphism Design.
+* Hiển thị webcam realtime.
+* Hiển thị Bounding Box.
+* Biểu đồ thống kê màu sắc.
+* Trạng thái Blockchain.
+
+## 🧠 Module xử lý AI
+
+* YOLOv8 Object Detection.
+* OpenCV Image Processing.
+* HSV Color Detection.
+* Center Crop Analysis.
+* Morphology Noise Removal.
+* RGB & HSV Extraction.
+
+## 🗄️ Module lưu trữ
+
+* SQLite Database.
+* CSV Export.
+* Blockchain Ledger.
+
+## 🤖 Module Robot
+
+* Arduino Nano.
+* Servo SG90.
+* Điều khiển Pick & Place.
+* Giao tiếp Serial COM.
+
+---
+
+# 🔄 Quy trình hoạt động
+
+1. Camera thu nhận hình ảnh sản phẩm.
+
+2. YOLOv8 phát hiện vật thể.
+
+3. Crop vùng trung tâm của Bounding Box.
+
+4. Chuyển đổi ảnh sang không gian màu HSV.
+
+5. Tính toán tỷ lệ màu hợp lệ.
+
+6. Xác định màu có tỷ lệ lớn nhất.
+
+7. So sánh với màu chuẩn.
+
+8. Sinh kết quả:
+
+* OK
+* NG
+* Ignored
+
+9. Lưu dữ liệu vào SQLite.
+
+10. Gửi Transaction qua Web3.py.
+
+11. Smart Contract ghi dữ liệu lên Blockchain.
+
+12. Dashboard cập nhật trạng thái và Tx Hash.
+
+---
+
+# ⛓️ Tích hợp Blockchain
+
+Luồng Blockchain:
+
+```
+Camera
+   ↓
+YOLO + OpenCV
+   ↓
+Color Detection
+   ↓
+SQLite Database
+   ↓
+Web3.py
+   ↓
+Ganache Ethereum
+   ↓
+Smart Contract
+   ↓
+Blockchain Ledger
+```
+
+Thông tin lưu trữ:
+
+* Product ID
+* Object Name
+* Detected Color
+* RGB Value
+* HSV Value
+* Result (OK / NG)
+* Confidence
+* Timestamp
+* Result Hash
+
+---
+
+# 📂 Cấu trúc Project
 
 ```text
 .
 ├── app.py
 ├── config.py
-├── config/colors.py
 ├── requirements.txt
 ├── README.md
 ├── models/
-├── static/css/style.css
-├── static/js/dashboard.js
-├── templates/
-├── database/init_db.py
 ├── detection/
 ├── analytics/
+├── database/
 ├── blockchain/
-│   ├── contracts/ProductClassificationLedger.sol
-│   ├── abi/ProductClassificationLedger.json
-│   └── scripts/deploy_contract.py
-├── utils/
+│   ├── contracts/
+│   ├── abi/
+│   └── scripts/
+├── templates/
+├── static/
 ├── uploads/
 ├── outputs/
 ├── exports/
 └── reports/
 ```
 
-## Cài đặt
+---
+
+# 🔧 Công nghệ sử dụng
+
+## Ngôn ngữ lập trình
+
+* Python
+* Solidity
+
+## Thư viện
+
+* OpenCV
+* Ultralytics YOLOv8
+* NumPy
+* Flask
+* Web3.py
+* SQLite3
+* Chart.js
+
+## Công cụ phát triển
+
+* Visual Studio Code
+* Git & GitHub
+* Ganache
+* Remix IDE
+
+## Phần cứng
+
+* Webcam
+* Arduino Nano
+* Servo SG90
+* Cánh tay Robot
+
+## Hệ điều hành
+
+* Windows 10
+* Windows 11
+
+---
+
+# 🚀 Hướng dẫn cài đặt
+
+### Clone Project
+
+```bash
+git clone https://github.com/TruongDev10/Blockchain-Product-Classification.git
+```
+
+### Di chuyển vào thư mục
+
+```bash
+cd Blockchain-Product-Classification
+```
+
+### Tạo môi trường ảo
 
 ```bash
 python -m venv .venv
+```
+
+### Kích hoạt
+
+Windows
+
+```bash
 .venv\Scripts\activate
+```
+
+Linux / Mac
+
+```bash
+source .venv/bin/activate
+```
+
+### Cài đặt thư viện
+
+```bash
 pip install -r requirements.txt
+```
+
+### Khởi tạo Database
+
+```bash
 python database/init_db.py
+```
+
+### Chạy hệ thống
+
+```bash
 python app.py
 ```
 
-Mở trình duyệt: `http://127.0.0.1:5000`
-
-Nếu chưa có file model trong `models/`, Ultralytics sẽ tự tải `yolov8n.pt` trong lần chạy đầu tiên khi máy có mạng. Nếu không có mạng hoặc model lỗi, app vẫn dùng fallback contour detection để test giao diện và luồng xử lý.
-
-## Dùng custom YOLOv8
-
-Chuẩn dataset YOLO:
+Mở trình duyệt:
 
 ```text
-datasets/color_product/
-├── train/images
-├── train/labels
-├── valid/images
-├── valid/labels
-├── test/images
-├── test/labels
-└── data.yaml
+http://127.0.0.1:5000
 ```
 
-Train:
+---
 
-```bash
-pip install ultralytics
-yolo detect train data=datasets/color_product/data.yaml model=yolov8n.pt epochs=50 imgsz=640
-```
+# 🔗 Kết nối Blockchain
 
-Sau khi train xong:
+### Chạy Ganache
 
-```bash
-copy runs\detect\train\weights\best.pt models\best.pt
-```
-
-Khởi động lại app để dùng `models/best.pt`.
-
-## Tích hợp Blockchain cục bộ với Ganache
-
-Luồng hoạt động:
-
-1. Camera/OpenCV/YOLO nhận diện vật thể và màu.
-2. App tạo `product_id`, kết quả `OK/NG`, RGB, HSV và timestamp.
-3. SQLite lưu log cục bộ.
-4. Nếu status là `valid` hoặc `wrong_color`, YOLO confidence >= 0.5, color ratio >= 0.12, Web3.py đưa log vào hàng đợi nền và gửi transaction tới Smart Contract.
-5. Smart Contract ghi bản ghi bất biến lên local blockchain.
-6. Dashboard hiển thị trạng thái kết nối, số record on-chain và tx hash gần nhất.
-
-### 1. Chạy Ganache
-
-Mở Ganache Desktop hoặc Ganache CLI. RPC mặc định thường là:
+RPC:
 
 ```text
 http://127.0.0.1:7545
 ```
 
-Chain ID thường là `1337` hoặc `5777`. Kiểm tra trong phần cài đặt network của Ganache.
+Chain ID:
 
-### 2. Deploy Smart Contract
+```text
+1337
+```
+
+### Deploy Smart Contract
 
 ```bash
 python blockchain/scripts/deploy_contract.py
 ```
 
-Script sẽ in ra:
+Sau khi deploy thành công:
 
 ```text
 Contract deployed
-Address: 0x...
-Tx hash: 0x...
+Address : 0x...
+Tx Hash : 0x...
 ```
 
-Copy `Address` vào ô `Contract address` trên dashboard, sau đó bấm `Kết nối blockchain`.
-Provider, contract address, account address và chain id sẽ được lưu trong:
+Nhập Contract Address vào Dashboard và nhấn:
 
-```text
-blockchain/blockchain_settings.json
-```
+**Kết nối Blockchain**
 
-Private key không được lưu bởi dashboard.
+---
 
-Nếu dùng account chưa mở khóa, cấu hình thêm:
+# 🤖 Điều khiển Robot thật
 
-```bash
-set BLOCKCHAIN_ACCOUNT_ADDRESS=0xYourGanacheAccount
-set BLOCKCHAIN_PRIVATE_KEY=your_ganache_private_key
-set BLOCKCHAIN_CONTRACT_ADDRESS=0xYourContractAddress
-set BLOCKCHAIN_CHAIN_ID=1337
-python run_server.py
-```
-
-Với Ganache local mở khóa account, thường không cần private key, app có thể dùng account đầu tiên từ node.
-
-### Smart Contract
-
-File contract nằm tại:
-
-```text
-blockchain/contracts/ProductClassificationLedger.sol
-```
-
-Hàm ghi dữ liệu mới:
-
-```solidity
-addRecord(productId, objectName, color, result, rgbValue, hsvValue, confidence, resultHash, timestamp)
-```
-
-Dữ liệu được phát qua event `ClassificationLogged` và lưu trong mapping `records`, phục vụ truy xuất nguồn gốc.
-Hàm cũ `addClassification(...)` vẫn được giữ như alias tương thích.
-
-## API
-
-- `GET /` hoặc `GET /dashboard`: dashboard.
-- `GET /video_feed`: MJPEG webcam stream.
-- `POST /upload-image`: upload ảnh, field name `image`.
-- `POST /upload-video`: upload video, field name `video`.
-- `GET /api/stats`: thống kê màu và trạng thái realtime.
-- `GET /api/logs`: lịch sử nhận diện.
-- `GET /api/colors`: danh sách 5 màu, HEX/RGB/HSL/CMYK/HSV/tolerance.
-- `GET /export-csv`: xuất CSV.
-- `POST /set-target-color`: body JSON `{ "target_color": "red" }`.
-- `POST /api/set-target-color`: body JSON `{ "target_color": "red" }`.
-- `POST /set-confidence`: body JSON `{ "confidence": 0.45 }`.
-- `GET /api/blockchain/status`: trạng thái Ganache/contract.
-- `POST /api/blockchain/config`: cấu hình provider, contract, account, private key, chain id.
-- `POST /api/blockchain/log`: ghi log blockchain thủ công để test.
-- `GET /api/blockchain/logs`: lịch sử log blockchain.
-
-## Logic nhận diện màu mới
-
-1. YOLO phát hiện bbox sản phẩm.
-2. Bỏ bbox `person`, bbox quá nhỏ hoặc quá lớn.
-3. Crop bbox, chỉ lấy vùng trung tâm 70% bằng `CENTER_CROP_MARGIN_RATIO = 0.15`.
-4. Gaussian blur nhẹ.
-5. Chuyển BGR sang HSV.
-6. Tạo mask cho 5 màu trong `config/colors.py`.
-7. Morphology open/close để giảm nhiễu.
-8. Tính `color_ratio = pixel_màu_hợp_lệ / pixel_crop`.
-9. Nếu ratio < `MIN_COLOR_RATIO = 0.12`, trả `not_target_color`, status `ignored`.
-10. Nếu ratio đủ ngưỡng, trả màu có ratio lớn nhất và tính:
-
-```text
-detected_hex
-standard_hex
-detected_rgb
-standard_rgb
-average_hsv
-color_distance
-match_standard
-```
-
-`color_distance` là khoảng cách Euclidean RGB giữa màu phát hiện và màu chuẩn. Tolerance mặc định là `45`.
-
-## Chỉnh ngưỡng nếu nhận sai
-
-File cấu hình:
-
-```text
-config/colors.py
-```
-
-Các tham số thường chỉnh:
-
-- `MIN_COLOR_RATIO`: tăng lên `0.16` hoặc `0.20` nếu nền/áo vẫn bị nhận nhầm; giảm xuống `0.08` nếu vật thể nhỏ hoặc thiếu sáng.
-- `CENTER_CROP_MARGIN_RATIO`: tăng lên `0.20` nếu bbox dính nền nhiều; giảm xuống `0.10` nếu vật thể nằm sát viền bbox.
-- `hsv_ranges`: chỉnh khoảng H/S/V cho từng màu theo ánh sáng thực tế.
-- `tolerance`: tăng nếu muốn `match_standard` dễ đạt hơn khi camera bị lệch màu.
-
-Sau khi chỉnh, restart app:
-
-```bash
-python run_server.py
-```
-
-## Kịch bản demo báo cáo
-
-1. Chạy `python app.py`.
-2. Mở dashboard.
-3. Đưa vật thể nhiều màu trước webcam.
-4. Quan sát bounding box, tên màu, RGB/HSV và biểu đồ.
-5. Chọn màu chuẩn, đưa vật thể sai màu để nhận cảnh báo `NG`.
-6. Kết nối Ganache và contract trên dashboard.
-7. Quan sát tx hash và số record on-chain tăng sau mỗi log phân loại.
-8. Upload ảnh/video mẫu để phân tích offline.
-9. Bấm `Export CSV` để lấy lịch sử nhận diện kèm tx hash blockchain.
-
-## Gợi ý dataset
-
-- Roboflow Universe: `colored object detection`, `bottle cap color detection`, `product color detection`, `fruit color detection`.
-- Kaggle: `color classification dataset`, `fruit color dataset`, `product defect detection`, `bottle cap dataset`.
-- Tự chụp: nắp chai, hộp sản phẩm, trái cây, đồ vật trong lớp học với nhiều điều kiện ánh sáng.
-
-## Ghi chú kỹ thuật
-
-- Camera mặc định là `CAMERA_INDEX = 0` trong `config.py`.
-- Có thể chỉnh `FRAME_WIDTH`, `FRAME_HEIGHT`, `DEFAULT_CONFIDENCE`.
-- Log realtime được throttle bằng `LOG_COOLDOWN_SECONDS` để tránh ghi SQLite quá dày.
-- File lỗi sai màu được lưu trong `outputs/images`.
-
-## Chay voi canh tay Arduino that
-
-Sketch Arduino nam tai:
+Nạp Sketch Arduino:
 
 ```text
 arduino/robot_arm_camera_pick/robot_arm_camera_pick.ino
 ```
 
-Nap sketch nay vao Arduino, cap nguon rieng cho servo va noi chung GND voi Arduino. App Flask se lay tam bbox tu camera, quy doi sang toa do robot `x=0..300`, `y=0..220`, roi gui lenh Serial:
-
-```text
-PICK <x> <y> <color> <status>
-```
-
-Mac dinh app chi mo phong de tranh tay robot chay bat ngo. Bat dieu khien that bang PowerShell:
+Khởi động:
 
 ```powershell
 $env:ROBOT_SERIAL_ENABLED="1"
 $env:ROBOT_SERIAL_PORT="COM3"
 $env:ROBOT_SERIAL_BAUDRATE="9600"
+
 python run_server.py
 ```
 
-Neu Arduino cua ban o cong khac, doi `COM3` thanh cong dung trong Arduino IDE. Cac goc can can chinh trong sketch:
+Lệnh gửi tới Arduino:
 
-```cpp
-BASE_MIN, BASE_MAX
-ARM2_NEAR, ARM2_FAR
-ARM3_NEAR, ARM3_FAR
-DROP_RED, DROP_GREEN, DROP_BLUE, DROP_WRONG
+```text
+PICK <x> <y> <color> <status>
 ```
 
-Nen test tung buoc bang cach gui `HOME` va mot lenh mau trong Serial Monitor truoc:
+Ví dụ:
 
 ```text
 PICK 150 110 red valid
 ```
+
+---
+
+# 📷 Hình ảnh minh họa
+
+<p align="center">
+<img src="./assets/images/dashboard.png" width="700"/>
+</p>
+
+<p align="center">
+<em>Giao diện Dashboard</em>
+</p>
+
+<p align="center">
+<img src="./assets/images/blockchain.png" width="700"/>
+</p>
+
+<p align="center">
+<em>Kết nối Blockchain</em>
+</p>
+
+<p align="center">
+<img src="./assets/images/robot.png" width="700"/>
+</p>
+
+<p align="center">
+<em>Cánh tay Robot phân loại</em>
+</p>
+
+---
+
+# 👨‍💻 Người thực hiện
+
+* **Bùi Văn Trường**
+
+* Chuyên ngành: Công nghệ Thông tin
+
+* Trường Đại học Đại Nam
+
+* GitHub:
+  https://github.com/TruongDev10
+
+---
+
+<div align="center">
+
+### © 2026 - Faculty of Information Technology - DaiNam University
+
+### AI • Computer Vision • Blockchain • Arduino • IoT
+
+</div>
