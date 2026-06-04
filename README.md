@@ -22,6 +22,9 @@ LƯU TRỮ LỊCH SỬ PHÂN LOẠI SẢN PHẨM BẰNG BLOCKCHAIN
 
 </div>
 
+## Poster dự án
+
+![Poster](./Poster_Blockchain.JPG)
 ---
 
 # 📖 Giới thiệu đề tài
