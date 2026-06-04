@@ -10,9 +10,9 @@
 
 <div align ="center">
     <p align ="center">
-        <img src="https://github.com/tiennq004/LTM_he_thong_canh_bao_thoi_gian_thuc/blob/main/docs/aiotlab_logo.png" width="170"/>
-        <img src="https://github.com/tiennq004/LTM_he_thong_canh_bao_thoi_gian_thuc/blob/main/docs/fitdnu_logo.png" width="180"/>
-        <img src="https://github.com/tiennq004/LTM_he_thong_canh_bao_thoi_gian_thuc/blob/main/docs/dnu_logo.png" width="200"/>
+        <img src="./aiotlab_logo.png" width="170"/>
+        <img src="./fitdnu_logo.png" width="180"/>
+        <img src="./dnu_logo.png" width="200"/>
     </p>
 
 [![AIoTLab](https://img.shields.io/badge/AIoTLab-green?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
